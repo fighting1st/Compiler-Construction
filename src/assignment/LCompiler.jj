@@ -1,0 +1,109 @@
+/**
+ * Token specification
+ */
+SKIP : {
+    ""
+    | "\t"
+    | "\n"
+    | "\r"
+    | "\f" }
+
+TOKEN : {
+    <KEYWORD :"and"
+            | "bool"
+            | "const"
+            | "do"
+            | "else"
+            | "false"
+            | "if"
+            | "int"
+            | "main"
+            | "not"
+            | "or"
+            | "real"
+            | "return"
+            | "string"
+            | "then"
+            | "true"
+            | "var"
+            | "void"
+            | "while" >}
+
+TOKEN : {
+    <#PUNCTUATION : "+"
+            | "-"
+            | "*"
+            | "/"
+            | "%"
+            | "="
+            | "!="
+            | "<"
+            | ">"
+            | "<="
+            | ">="
+            | "("
+            | ")"
+            | "{"
+            | "}"
+            | ","
+            | ";"
+            | ":"
+            | "."
+            | ":="
+            | "?"
+            | "!" >}
+
+TOKEN : {
+    < PLUS : "+" >
+    | < MINUS : "-" >
+    | < MULT : "*" >
+    | < DIV : "/" >
+    | < MOD : "%" >
+    | < EQUALS : "=" >
+    | < NOTEQUALS : "!=" >
+    | < LESSTHAN : "<" >
+    | < GREATERTHAN : ">" >
+    | < LESSOREQUAL : "<=" >
+    | < GREATOREQUAL : ">=" >
+    | < LPAREN : "(" >
+    | < RPAREN : ")" >
+    | < LBRACE : "{" >
+    | < RBRACE : "}" >
+    | < COMMA : "," >
+    | < SEMICOLON : ";" >
+    | < COLON : ":" >
+    | < DOT : "." >
+    | < ASSIGN : ":=" >
+    | < QUESTIONMARK : "?" >
+    | < EXCLAMATION : "!" >}
+
+TOKEN : {
+    <#DIGIT : (["0" - "9"]) >}
+
+TOKEN : {
+    <INT : (<DIGIT>)
+        | ((["1" - "9"]) <NUM>) >}
+
+TOKEN : {
+    <#CHAR : ["a" - "z"]
+        | ["A" - "Z"] >}
+
+TOKEN : {
+    <#ID : (<CHAR>)+ >}
+
+
+// Correct to here
+
+
+
+TOKEN : {
+    <STRING : "\"" (<ID> | <NUM> | " " | <PUNCTUATION> | <ESCAPED>)+ "\"" >}
+
+TOKEN : {
+    < FLOAT: ("0" "." <NUM>)
+        | (<NOTZERO> "." <NUM>)
+        | (<NOTZERO> <NUM> "." <NUM>) > }
+
+TOKEN : {
+    < INT : (["0" - "9"])
+        | ((["1" - "9"]) <NUM>) > }
