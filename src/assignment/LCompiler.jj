@@ -1,3 +1,8 @@
+/*
+* Emmet Delaney
+* 10314721
+*/
+
 PARSER_BEGIN(LCompiler)
 
 public class LCompiler
@@ -23,6 +28,7 @@ public class LCompiler
                     case KEYWORD:       System.out.print("KEYWORD" + "(" + token.image + ")"); break;
                     case IDENITFIER:    System.out.print("IDENITFIER" + "(" + token.image + ")"); break;
                     case STRING:        System.out.print("STRING" + "(" + token.image + ")"); break;
+                    case NUM:           System.out.print("NUM" + "(" + token.image + ")"); break;
                     case REAL:          System.out.print("REAL" + "(" + token.image + ")"); break;
                     case PLUS:
                     case MINUS:
@@ -34,7 +40,7 @@ public class LCompiler
                     case LESSTHAN:
                     case GREATERTHAN:
                     case LESSOREQUAL:
-                    case GREATOREQUAL:
+                    case GREATOREQUAL:  System.out.print("OPERATOR" + "(" + token.image + ")"); break;
                     case LPAREN:
                     case RPAREN:
                     case LBRACE:
@@ -45,9 +51,8 @@ public class LCompiler
                     case DOT:
                     case ASSIGN:
                     case QUESTIONMARK:
-                    case EXCLAMATION:
-                    case PUNCTUATION:   System.out.print("PUNCTUATION" + "(" + token.image + ")"); break;
-                    default:            System.out.print("OTHER" + "(" + token.image + ")"); 
+                    case EXCLAMATION:   System.out.print("RELATION" + "(" + token.image + ")"); break;
+                    default:            System.out.println("\nOTHER" + "(" + token.image + ")"); 
                 }
             }
 
@@ -59,14 +64,14 @@ public class LCompiler
 PARSER_END(LCompiler)
 
 SKIP : {
-        " "
+          " "
         | "\t"
         | "\n"
         | "\r"
         | <"//" (<CHAR> | <DIGIT>)* ("\n" | "\r" | "\r\n") >}
 
-        TOKEN : {
-<KEYWORD :"and"
+TOKEN : {
+    <KEYWORD :"and"
         | "bool"
         | "const"
         | "do"
@@ -86,8 +91,8 @@ SKIP : {
         | "void"
         | "while" >}
 
-        TOKEN : {
-<#PUNCTUATION : "+"
+TOKEN : {
+    <#PUNCTUATION : "+"
         | "-"
         | "*"
         | "/"
@@ -110,58 +115,53 @@ SKIP : {
         | "?"
         | "!" >}
 
-        TOKEN : {
-          < PLUS : "+" >
-        | < MINUS : "-" >
-        | < MULT : "*" >
-        | < DIV : "/" >
-        | < MOD : "%" >
-        | < EQUALS : "=" >
-        | < NOTEQUALS : "!=" >
-        | < LESSTHAN : "<" >
-        | < GREATERTHAN : ">" >
-        | < LESSOREQUAL : "<=" >
-        | < GREATOREQUAL : ">=" >
-        | < LPAREN : "(" >
-        | < RPAREN : ")" >
-        | < LBRACE : "{" >
-        | < RBRACE : "}" >
-        | < COMMA : "," >
-        | < SEMICOLON : ";" >
-        | < COLON : ":" >
-        | < DOT : "." >
-        | < ASSIGN : ":=" >
-        | < QUESTIONMARK : "?" >
-        | < EXCLAMATION : "!" >}
+TOKEN : {
+      <PLUS : "+">
+    | <MINUS : "-">
+    | <MULT : "*">
+    | <DIV : "/">
+    | <MOD : "%">
+    | <EQUALS : "=">
+    | <NOTEQUALS : "!=">
+    | <LESSTHAN : "<">
+    | <GREATERTHAN : ">">
+    | <LESSOREQUAL : "<=">
+    | <GREATOREQUAL : ">=">
+    | <LPAREN : "(">
+    | <RPAREN : ")">
+    | <LBRACE : "{">
+    | <RBRACE : "}">
+    | <COMMA : ",">
+    | <SEMICOLON : ";">
+    | <COLON : ":">
+    | <DOT : ".">
+    | <ASSIGN : ":=">
+    | <QUESTIONMARK : "?">
+    | <EXCLAMATION : "!" >}
 
-        TOKEN : {
-<DIGIT : (["0" - "9"]) >}          //correct
+TOKEN : {
+    <#DIGIT : (["0" - "9"]) >}
 
-        TOKEN : {
-<NUM : ((<DIGIT>)+) >}               //correct
+TOKEN : {
+    <NUM : ((<DIGIT>)+) >}
 
-        TOKEN : {
-<INT : (<DIGIT>)                    //correct
-        | ((["1" - "9"]) <NUM>) >}
+TOKEN : {
+    <REAL : (<NUM> "." <NUM>) >}
 
-        TOKEN : {
-<REAL : ((<DIGIT>)+ "." (<DIGIT>)*)
-        | ((<DIGIT>)* "." (<DIGIT>)*) >}
-
-        TOKEN : {
-<CHAR : (["a" - "z"])                 //correct
+TOKEN : {
+    <#CHAR : (["a" - "z"])
         | (["A" - "Z"]) >}
 
-        TOKEN : {
-<#LETTERS : ((<CHAR>)+) >}            //correct
+TOKEN : {
+    <#LETTERS : ((<CHAR>)+) >}
 
-        TOKEN : {
-<IDENITFIER : <CHAR>
-| <CHAR> (<LETTERS> | <NUM> | "_")+ >}   //correct
+TOKEN : {
+    <IDENITFIER : <CHAR>
+        | <CHAR> (<LETTERS> | <NUM> | "_")+ >}
 
-        TOKEN : {
-<STRING : "\"" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\")+ "\"" >}
+TOKEN : {
+    <STRING : "\"" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\")+ "\"" >}
 
-        TOKEN : {
-<#COMMENT : "/*" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\" | "\t" | "/*" | "*/")+ "*/"
+TOKEN : {
+    <#COMMENT : "/*" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\" | "\t" | "/*" | "*/")+ "*/"
         | "--" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\"| "\t")+ "\n" >}
