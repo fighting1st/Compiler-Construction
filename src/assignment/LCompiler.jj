@@ -1,109 +1,145 @@
-/**
- * Token specification
- */
+PARSER_BEGIN(LCompiler)
+
+public class LCompiler
+{
+    public static void main(String [] args)
+    {
+        try {
+            LCompiler tokeniser;
+            if(args.length == 0) {
+                System.out.println("Reading from standard input . . .");
+                tokeniser = new LCompiler(System.in);
+            } else if(args.length == 1) {
+                try {
+                    tokeniser = new LCompiler(new java.io.FileInputStream(args[0]));
+                } catch(java.io.FileNotFoundException e) {
+                    System.out.println("File " + args[0] + " not found.");
+                    return;
+                }
+            }
+
+            for(Token token = getNextToken(); token.kind != EOF; token = getNextToken()) {
+                switch(token.kind) {
+                    case KEYWORD:       System.out.print("KEYWORD" + "(" + token.image + ")"); break;
+                    case IDENITFIER:    System.out.print("IDENITFIER" + "(" + token.image + ")"); break;
+                    case STRING:        System.out.print("STRING" + "(" + token.image + ")"); break;
+                    case REAL:          System.out.print("REAL" + "(" + token.image + ")"); break;
+                    case PUNCTUATION:   System.out.print("PUNCTUATION" + "(" + token.image + ")"); break;
+                    default:            System.out.print("OTHER" + "(" + token.image + ")"); 
+                }
+            }
+
+        } catch(Exception e) {
+            System.out.println("Failure in Main - " + e);
+        }
+    }
+}
+PARSER_END(LCompiler)
+
 SKIP : {
-    ""
-    | "\t"
-    | "\n"
-    | "\r"
-    | "\f" }
+        " "
+        | "\t"
+        | "\n"
+        | "\r"
+        | <"//" (<CHAR> | <DIGIT>)* ("\n" | "\r" | "\r\n") >}
 
-TOKEN : {
-    <KEYWORD :"and"
-            | "bool"
-            | "const"
-            | "do"
-            | "else"
-            | "false"
-            | "if"
-            | "int"
-            | "main"
-            | "not"
-            | "or"
-            | "real"
-            | "return"
-            | "string"
-            | "then"
-            | "true"
-            | "var"
-            | "void"
-            | "while" >}
+        TOKEN : {
+<KEYWORD :"and"
+        | "bool"
+        | "const"
+        | "do"
+        | "else"
+        | "false"
+        | "if"
+        | "int"
+        | "main"
+        | "not"
+        | "or"
+        | "real"
+        | "return"
+        | "string"
+        | "then"
+        | "true"
+        | "var"
+        | "void"
+        | "while" >}
 
-TOKEN : {
-    <#PUNCTUATION : "+"
-            | "-"
-            | "*"
-            | "/"
-            | "%"
-            | "="
-            | "!="
-            | "<"
-            | ">"
-            | "<="
-            | ">="
-            | "("
-            | ")"
-            | "{"
-            | "}"
-            | ","
-            | ";"
-            | ":"
-            | "."
-            | ":="
-            | "?"
-            | "!" >}
+        TOKEN : {
+<#PUNCTUATION : "+"
+        | "-"
+        | "*"
+        | "/"
+        | "%"
+        | "="
+        | "!="
+        | "<"
+        | ">"
+        | "<="
+        | ">="
+        | "("
+        | ")"
+        | "{"
+        | "}"
+        | ","
+        | ";"
+        | ":"
+        | "."
+        | ":="
+        | "?"
+        | "!" >}
 
-TOKEN : {
-    < PLUS : "+" >
-    | < MINUS : "-" >
-    | < MULT : "*" >
-    | < DIV : "/" >
-    | < MOD : "%" >
-    | < EQUALS : "=" >
-    | < NOTEQUALS : "!=" >
-    | < LESSTHAN : "<" >
-    | < GREATERTHAN : ">" >
-    | < LESSOREQUAL : "<=" >
-    | < GREATOREQUAL : ">=" >
-    | < LPAREN : "(" >
-    | < RPAREN : ")" >
-    | < LBRACE : "{" >
-    | < RBRACE : "}" >
-    | < COMMA : "," >
-    | < SEMICOLON : ";" >
-    | < COLON : ":" >
-    | < DOT : "." >
-    | < ASSIGN : ":=" >
-    | < QUESTIONMARK : "?" >
-    | < EXCLAMATION : "!" >}
+        TOKEN : {
+< PLUS : "+" >
+        | < MINUS : "-" >
+        | < MULT : "*" >
+        | < DIV : "/" >
+        | < MOD : "%" >
+        | < EQUALS : "=" >
+        | < NOTEQUALS : "!=" >
+        | < LESSTHAN : "<" >
+        | < GREATERTHAN : ">" >
+        | < LESSOREQUAL : "<=" >
+        | < GREATOREQUAL : ">=" >
+        | < LPAREN : "(" >
+        | < RPAREN : ")" >
+        | < LBRACE : "{" >
+        | < RBRACE : "}" >
+        | < COMMA : "," >
+        | < SEMICOLON : ";" >
+        | < COLON : ":" >
+        | < DOT : "." >
+        | < ASSIGN : ":=" >
+        | < QUESTIONMARK : "?" >
+        | < EXCLAMATION : "!" >}
 
-TOKEN : {
-    <#DIGIT : (["0" - "9"]) >}
+        TOKEN : {
+<DIGIT : (["0" - "9"]) >}          //correct
 
-TOKEN : {
-    <INT : (<DIGIT>)
+        TOKEN : {
+<NUM : ((<DIGIT>)+) >}               //correct
+
+        TOKEN : {
+<INT : (<DIGIT>)                    //correct
         | ((["1" - "9"]) <NUM>) >}
 
-TOKEN : {
-    <#CHAR : ["a" - "z"]
-        | ["A" - "Z"] >}
+        TOKEN : {
+<REAL : ((<DIGIT>)+ "." (<DIGIT>)*)
+        | ((<DIGIT>)* "." (<DIGIT>)*) >}
 
-TOKEN : {
-    <#ID : (<CHAR>)+ >}
+        TOKEN : {
+<CHAR : (["a" - "z"])                 //correct
+        | (["A" - "Z"]) >}
 
+        TOKEN : {
+<#LETTERS : ((<CHAR>)+) >}            //correct
 
-// Correct to here
+        TOKEN : {
+<IDENITFIER : <CHAR>
+| <CHAR> (<LETTERS> | <NUM> | <PUNCTUATION> | "_")+ >}   //correct
 
+        TOKEN : {
+<STRING : "\"" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\")+ "\"" >}
 
-
-TOKEN : {
-    <STRING : "\"" (<ID> | <NUM> | " " | <PUNCTUATION> | <ESCAPED>)+ "\"" >}
-
-TOKEN : {
-    < FLOAT: ("0" "." <NUM>)
-        | (<NOTZERO> "." <NUM>)
-        | (<NOTZERO> <NUM> "." <NUM>) > }
-
-TOKEN : {
-    < INT : (["0" - "9"])
-        | ((["1" - "9"]) <NUM>) > }
+        TOKEN : {
+<#COMMENT : "/*" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\" | "\t" | "/*" | "*/")+ "*/"
+        | "--" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\"| "\t")+ "\n" >}
