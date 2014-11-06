@@ -135,7 +135,7 @@ SKIP : {
 
         TOKEN : {
 <IDENITFIER : <CHAR>
-| <CHAR> (<LETTERS> | <NUM> | <PUNCTUATION> | "_")+ >}   //correct
+| <CHAR> (<LETTERS> | <NUM> | "_")+ >}   //correct
 
         TOKEN : {
 <STRING : "\"" (<LETTERS> | <NUM> | <PUNCTUATION> | "_" | "\"" | "\n" | "\\")+ "\"" >}
