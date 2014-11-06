@@ -24,6 +24,28 @@ public class LCompiler
                     case IDENITFIER:    System.out.print("IDENITFIER" + "(" + token.image + ")"); break;
                     case STRING:        System.out.print("STRING" + "(" + token.image + ")"); break;
                     case REAL:          System.out.print("REAL" + "(" + token.image + ")"); break;
+                    case PLUS:
+                    case MINUS:
+                    case MULT:
+                    case DIV:
+                    case MOD:
+                    case EQUALS:
+                    case NOTEQUALS:
+                    case LESSTHAN:
+                    case GREATERTHAN:
+                    case LESSOREQUAL:
+                    case GREATOREQUAL:
+                    case LPAREN:
+                    case RPAREN:
+                    case LBRACE:
+                    case RBRACE:
+                    case COMMA:
+                    case SEMICOLON:
+                    case COLON:
+                    case DOT:
+                    case ASSIGN:
+                    case QUESTIONMARK:
+                    case EXCLAMATION:
                     case PUNCTUATION:   System.out.print("PUNCTUATION" + "(" + token.image + ")"); break;
                     default:            System.out.print("OTHER" + "(" + token.image + ")"); 
                 }
@@ -89,7 +111,7 @@ SKIP : {
         | "!" >}
 
         TOKEN : {
-< PLUS : "+" >
+          < PLUS : "+" >
         | < MINUS : "-" >
         | < MULT : "*" >
         | < DIV : "/" >
