@@ -34,13 +34,13 @@ public class LCompiler
                     case MINUS:
                     case MULT:
                     case DIV:
-                    case MOD:
+                    case MOD:			System.out.print("OPERATOR" + "(" + token.image + ")"); break;
                     case EQUALS:
                     case NOTEQUALS:
                     case LESSTHAN:
                     case GREATERTHAN:
                     case LESSOREQUAL:
-                    case GREATOREQUAL:  System.out.print("OPERATOR" + "(" + token.image + ")"); break;
+                    case GREATOREQUAL:	System.out.print("RELATION" + "(" + token.image + ")"); break;
                     case LPAREN:
                     case RPAREN:
                     case LBRACE:
@@ -51,11 +51,10 @@ public class LCompiler
                     case DOT:
                     case ASSIGN:
                     case QUESTIONMARK:
-                    case EXCLAMATION:   System.out.print("RELATION" + "(" + token.image + ")"); break;
-                    default:            System.out.println("\nOTHER" + "(" + token.image + ")"); 
+                    case EXCLAMATION:	System.out.print("PUNCTUATION" + "(" + token.image + ")"); break;
+                    default:            System.out.println("\nOTHER" + "(" + token.image + ")");
                 }
             }
-
         } catch(Exception e) {
             System.out.println("Failure in Main - " + e);
         }
@@ -71,7 +70,7 @@ SKIP : {
         | <"//" (<CHAR> | <DIGIT>)* ("\n" | "\r" | "\r\n") >}
 
 TOKEN : {
-    <KEYWORD :"and"
+    <KEYWORD : "and"
         | "bool"
         | "const"
         | "do"
