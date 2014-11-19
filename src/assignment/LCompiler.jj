@@ -25,16 +25,16 @@ public class LCompiler
 
             for(Token token = getNextToken(); token.kind != EOF; token = getNextToken()) {
                 switch(token.kind) {
-                    case KEYWORD:       System.out.print("KEYWORD" + "(" + token.image + ")"); break;
-                    case IDENITFIER:    System.out.print("IDENITFIER" + "(" + token.image + ")"); break;
-                    case STRING:        System.out.print("STRING" + "(" + token.image + ")"); break;
-                    case NUM:           System.out.print("NUM" + "(" + token.image + ")"); break;
-                    case REAL:          System.out.print("REAL" + "(" + token.image + ")"); break;
+                    case KEYWORD:       		System.out.print("KEYWORD" + "(" + token.image + ")"); break;
+                    case IDENITFIER:    		System.out.print("IDENITFIER" + "(" + token.image + ")"); break;
+                    case STRING:        			System.out.print("STRING" + "(" + token.image + ")"); break;
+                    case NUM:           			System.out.print("NUM" + "(" + token.image + ")"); break;
+                    case REAL:          			System.out.print("REAL" + "(" + token.image + ")"); break;
                     case PLUS:
                     case MINUS:
                     case MULT:
                     case DIV:
-                    case MOD:			System.out.print("OPERATOR" + "(" + token.image + ")"); break;
+                    case MOD:						System.out.print("OPERATOR" + "(" + token.image + ")"); break;
                     case EQUALS:
                     case NOTEQUALS:
                     case LESSTHAN:
@@ -52,7 +52,7 @@ public class LCompiler
                     case ASSIGN:
                     case QUESTIONMARK:
                     case EXCLAMATION:	System.out.print("PUNCTUATION" + "(" + token.image + ")"); break;
-                    default:            System.out.println("\nOTHER" + "(" + token.image + ")");
+                    default:            				System.out.println("\nOTHER" + "(" + token.image + ")"); 
                 }
             }
         } catch(Exception e) {
@@ -67,7 +67,8 @@ SKIP : {
         | "\t"
         | "\n"
         | "\r"
-        | <"//" (<CHAR> | <DIGIT>)* ("\n" | "\r" | "\r\n") >}
+        | <"//" (<CHAR> | <DIGIT>)* ("\n" | "\r" | "\r\n") 
+		| <COMMENT> >}
 
 TOKEN : {
     <KEYWORD : "and"
